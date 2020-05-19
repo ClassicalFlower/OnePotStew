@@ -12,10 +12,35 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
+            multiDexEnabled true
+            signingConfig signingConfigs.debug
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    flavorDimensions "versionCode"
+    productFlavors {
+
+        allmodule {
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+
+        flavoring {
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 }
 
