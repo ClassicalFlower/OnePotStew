@@ -8,6 +8,7 @@ import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.cloud.felixfelicis.utils.AppUtils;
 
@@ -50,7 +51,11 @@ public class JobHandleService extends JobService {
 
     private JobInfo getJobInfo() {
         JobInfo.Builder builder = new JobInfo.Builder(0x0001, new ComponentName(this, JobHandleService.class));
-        builder.setPeriodic(100);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            builder.setMinimumLatency(1000);
+        }else {
+            builder.setPeriodic(1000);
+        }
         builder.setPersisted(true);
         builder.setRequiresCharging(false);
         builder.setRequiresDeviceIdle(false);

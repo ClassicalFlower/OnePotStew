@@ -38,13 +38,13 @@ public class RemoteService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Notification.Builder builder;
+        NotificationCompat.Builder builder;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             String remoteService = createNotificationChannel("com.cloud.felixfelicis.service.RemoteService", "RemoteService");
-            builder = new Notification.Builder(RemoteService.this)
+            builder = new NotificationCompat.Builder(RemoteService.this)
                     .setChannelId(remoteService);
         }else {
-            builder = new Notification.Builder(this);
+            builder = new NotificationCompat.Builder(this);
         }
         builder.setDefaults(NotificationCompat.DEFAULT_SOUND);
         builder.setContentTitle("");
@@ -53,7 +53,7 @@ public class RemoteService extends Service {
         builder.setWhen(System.currentTimeMillis());
         PendingIntent pendingIntent = PendingIntent.getActivity(RemoteService.this, 0, intent, 0);
         builder.setContentIntent(pendingIntent);
-        startForeground(startId,builder.build());
+        startForeground(10,builder.build());
         return START_STICKY;
     }
 

@@ -1,15 +1,20 @@
 package com.cloud.felixfelicis.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.cloud.felixfelicis.IServiceAidlInterface;
@@ -31,11 +36,13 @@ public class LocalService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Notification.Builder builder;
+        NotificationCompat.Builder builder;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            builder = new Notification.Builder(LocalService.this, "LOCAL");
+            String remoteService = createNotificationChannel("com.cloud.felixfelicis.service.LocalService", "LocalService");
+            builder = new NotificationCompat.Builder(LocalService.this)
+                    .setChannelId(remoteService);
         }else {
-            builder = new Notification.Builder(LocalService.this);
+            builder = new NotificationCompat.Builder(this);
         }
         builder.setDefaults(NotificationCompat.DEFAULT_SOUND);
         builder.setContentTitle("");
@@ -75,5 +82,15 @@ public class LocalService extends Service {
         public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
 
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String createNotificationChannel(String id , String channel){
+        NotificationChannel notificationChannel = new NotificationChannel(id, channel, NotificationManager.IMPORTANCE_NONE);
+        notificationChannel.setLightColor(Color.BLUE);
+        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        return id;
     }
 }
