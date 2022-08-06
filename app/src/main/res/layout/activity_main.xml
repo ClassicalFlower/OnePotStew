@@ -14,4 +14,20 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp" />
 
+    <ImageView
+        android:id="@+id/iv_hook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_fps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:layout_marginStart="16dp"
+        android:textColor="#00FFFF"
+        android:textSize="20dp"/>
+
 </com.cloud.felixfelicis.viewer.VerticalScrollFrameLayout>
